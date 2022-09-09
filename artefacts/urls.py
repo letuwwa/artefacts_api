@@ -5,6 +5,4 @@ from .apps import ArtefactsConfig
 
 app_name = ArtefactsConfig.name
 
-urlpatterns = [
-    path("", ArtefactView.as_view())
-]
+urlpatterns = [path("", ArtefactView.as_view())]
