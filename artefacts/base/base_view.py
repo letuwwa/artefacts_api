@@ -2,10 +2,12 @@ from rest_framework import status
 from django.db.models import Model
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.serializers import ModelSerializer
 
 
 class BaseView(APIView):
     model: Model
+    model_serializer: ModelSerializer
 
     @classmethod
     def get_artefact_or_none(cls, pk: str) -> Model | None:
