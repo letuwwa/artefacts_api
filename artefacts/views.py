@@ -35,7 +35,7 @@ class ArtefactEntityView(APIView):
         return Response(data={"test": "message"}, status=status.HTTP_200_OK)
 
     @staticmethod
-    def get_object_or_none(pk: str) -> Model | None:
+    def get_artefact_or_none(pk: str) -> Model | None:
         try:
             return Artefact.objects.get(pk=pk)
         except Artefact.DoesNotExist:
