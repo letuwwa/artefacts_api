@@ -1,63 +1,52 @@
-from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from django.db.models import Model
-
 from artefacts.models import Artefact
+from artefacts.base.base_view import BaseView
 from artefacts.serializers import ArtefactSerializer
 
 
-class ArtefactCommonView(APIView):
+class ArtefactCommonView(BaseView):
+    model = Artefact
+    model_serializer = ArtefactSerializer
+
     def get(self, request: Request) -> Response:
-        artefacts = Artefact.objects.all()
-        serializer = ArtefactSerializer(instance=artefacts, many=True)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        artefacts = self.model.objects.all()
+        serializer = self.model_serializer(instance=artefacts, many=True)
+        return self.get_response_ok(value=serializer.data)
 
     def post(self, request: Request) -> Response:
-        serializer = ArtefactSerializer(data=request.data)
+        serializer = self.model_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return self.get_response_created(value=serializer.data)
+        return self.get_response_bad_request(value=serializer.errors)
 
 
-class ArtefactEntityView(APIView):
+class ArtefactEntityView(BaseView):
+    model = Artefact
+    model_serializer = ArtefactSerializer
+
     def get(self, request: Request, pk: str) -> Response:
-        artefact = self.get_artefact_or_none(pk=pk)
-        if artefact:
-            return Response(
-                data=ArtefactSerializer(artefact).data, status=status.HTTP_200_OK
-            )
-        return Response(data={"message": "not_found"}, status=status.HTTP_404_NOT_FOUND)
+        if artefact := self.get_artefact_or_none(pk=pk):
+            return self.get_response_ok(value=self.model_serializer(artefact).data)
+        return self.get_response_not_found()
 
     def put(self, request: Request, pk: str) -> Response:
-        artefact = self.get_artefact_or_none(pk=pk)
-        if artefact:
-            serializer = ArtefactSerializer(artefact, data=request.data)
+        if artefact := self.get_artefact_or_none(pk=pk):
+            serializer = self.model_serializer(artefact, data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response(data={"message": "not_found"}, status=status.HTTP_404_NOT_FOUND)
+                return self.get_response_created(value=serializer.data)
+            return self.get_response_bad_request(value=serializer.errors)
+        return self.get_response_not_found()
 
     def delete(self, request: Request, pk: str) -> Response:
-        artefact = self.get_artefact_or_none(pk=pk)
-        if artefact:
+        if artefact := self.get_artefact_or_none(pk=pk):
             artefact.delete()
-            return Response(
-                data={"message": "deleted"}, status=status.HTTP_204_NO_CONTENT
-            )
-        return Response(data={"message": "not_found"}, status=status.HTTP_404_NOT_FOUND)
-
-    @staticmethod
-    def get_artefact_or_none(pk: str) -> Model | None:
-        try:
-            return Artefact.objects.get(pk=pk)
-        except Artefact.DoesNotExist:
-            return None
+            return self.get_response_deleted()
+        return self.get_response_not_found()
 
 
 @api_view()
