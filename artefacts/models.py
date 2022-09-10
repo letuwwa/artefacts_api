@@ -1,13 +1,13 @@
 import uuid
-from django.db import models
+from django.db.models import Model, CharField, UUIDField
 
 
-class Artefact(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=128, null=False, help_text="Name")
-    description = models.CharField(max_length=2048, null=True, help_text="Description")
+class Artefact(Model):
+    id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = CharField(max_length=128, null=False, help_text="Name")
+    description = CharField(max_length=2048, null=True, help_text="Description")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.id}"
 
     class Meta:
