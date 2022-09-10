@@ -25,8 +25,11 @@ class ArtefactCommonView(APIView):
 
 
 class ArtefactEntityView(APIView):
-    def get(self, request: Request) -> Response:
-        return Response(data={"test": "message"}, status=status.HTTP_200_OK)
+    def get(self, request: Request, pk: str) -> Response:
+        artefact = self.get_artefact_or_none(pk=pk)
+        if artefact:
+            return Response(data=ArtefactSerializer(artefact).data, status=status.HTTP_200_OK)
+        return Response(data={"message": "not_found"}, status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request: Request) -> Response:
         return Response(data={"test": "message"}, status=status.HTTP_200_OK)
