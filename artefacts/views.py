@@ -28,14 +28,29 @@ class ArtefactEntityView(APIView):
     def get(self, request: Request, pk: str) -> Response:
         artefact = self.get_artefact_or_none(pk=pk)
         if artefact:
-            return Response(data=ArtefactSerializer(artefact).data, status=status.HTTP_200_OK)
+            return Response(
+                data=ArtefactSerializer(artefact).data, status=status.HTTP_200_OK
+            )
         return Response(data={"message": "not_found"}, status=status.HTTP_404_NOT_FOUND)
 
-    def put(self, request: Request) -> Response:
-        return Response(data={"test": "message"}, status=status.HTTP_200_OK)
+    def put(self, request: Request, pk: str) -> Response:
+        artefact = self.get_artefact_or_none(pk=pk)
+        if artefact:
+            serializer = ArtefactSerializer(artefact, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data={"message": "not_found"}, status=status.HTTP_404_NOT_FOUND)
 
-    def delete(self, request: Request) -> Response:
-        return Response(data={"test": "message"}, status=status.HTTP_200_OK)
+    def delete(self, request: Request, pk: str) -> Response:
+        artefact = self.get_artefact_or_none(pk=pk)
+        if artefact:
+            artefact.delete()
+            return Response(
+                data={"message": "deleted"}, status=status.HTTP_204_NO_CONTENT
+            )
+        return Response(data={"message": "not_found"}, status=status.HTTP_404_NOT_FOUND)
 
     @staticmethod
     def get_artefact_or_none(pk: str) -> Model | None:
