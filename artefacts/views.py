@@ -29,12 +29,12 @@ class ArtefactEntityView(BaseView):
     model_serializer = ArtefactSerializer
 
     def get(self, request: Request, pk: str) -> Response:
-        if artefact := self.get_artefact_or_none(pk=pk):
+        if artefact := self.get_entity_or_none(pk=pk):
             return self.get_response_ok(value=self.model_serializer(artefact).data)
         return self.get_response_not_found()
 
     def put(self, request: Request, pk: str) -> Response:
-        if artefact := self.get_artefact_or_none(pk=pk):
+        if artefact := self.get_entity_or_none(pk=pk):
             serializer = self.model_serializer(artefact, data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -43,7 +43,7 @@ class ArtefactEntityView(BaseView):
         return self.get_response_not_found()
 
     def delete(self, request: Request, pk: str) -> Response:
-        if artefact := self.get_artefact_or_none(pk=pk):
+        if artefact := self.get_entity_or_none(pk=pk):
             artefact.delete()
             return self.get_response_deleted()
         return self.get_response_not_found()

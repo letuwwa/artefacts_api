@@ -10,7 +10,7 @@ class BaseView(APIView):
     model_serializer: ModelSerializer
 
     @classmethod
-    def get_artefact_or_none(cls, pk: str) -> Model | None:
+    def get_entity_or_none(cls, pk: str) -> Model | None:
         try:
             return cls.model.objects.get(pk=pk)
         except cls.model.DoesNotExist:
