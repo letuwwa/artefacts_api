@@ -1,9 +1,6 @@
 from django.contrib import admin
-from artefacts.models import Artefact
+from artefacts.models import Artefact, Archeologist
 
 
-class ArtefactAdmin(admin.ModelAdmin):
-    list_display = ("name", "id")
-
-
-admin.site.register(Artefact, ArtefactAdmin)
+admin.site.register(Artefact)
+admin.site.register(Archeologist)
