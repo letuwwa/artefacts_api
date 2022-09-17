@@ -1,11 +1,11 @@
 import uuid
 from django.db.models import (
     Model,
+    CASCADE,
     CharField,
     UUIDField,
     EmailField,
     ForeignKey,
-    CASCADE,
 )
 
 
