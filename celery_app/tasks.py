@@ -1,16 +1,12 @@
 from .celery import app
+from artefacts.models import Artefact
+from artefacts.serializers import ArtefactSerializer
 
 
 @app.task
-def add(x, y):
-    return x + y
-
-
-@app.task
-def mul(x, y):
-    return x * y
-
-
-@app.task
-def xsum(numbers):
-    return sum(numbers)
+def create_artefact_copy(serializer: ArtefactSerializer):
+    artefact_copy = Artefact()
+    artefact_copy.name = "COPY_" + serializer.initial_data.get("name")
+    artefact_copy.description = serializer.initial_data.get("description")
+    artefact_copy.archeologist = serializer.initial_data.get("archeologist")
+    artefact_copy.save()

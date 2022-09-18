@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from artefacts.models import Artefact
 from artefacts.base.base_view import BaseView
 from artefacts.serializers import ArtefactSerializer
+from celery_app.tasks import create_artefact_copy
 
 
 class ArtefactCommonView(BaseView):
@@ -20,6 +21,7 @@ class ArtefactCommonView(BaseView):
         serializer = self.model_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            create_artefact_copy(serializer=serializer)
             return self.get_response_created(value=serializer.data)
         return self.get_response_bad_request(value=serializer.errors)
 
