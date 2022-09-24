@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from auth_api.models import User
 from auth_api.serializers import UserSerializer
 from artefacts.base.base_response_class import BaseResponse
+from auth_api.utils import create_access_token, create_refresh_token
 
 
 class RegisterView(APIView, BaseResponse):
@@ -35,19 +36,10 @@ class LoginView(APIView, BaseResponse):
         if not user.check_password(raw_password=password):
             return self.get_response_forbidden()
 
-        payload = {
-            "id": str(user.id),
-            "iat": datetime.now(),
-            "exp": datetime.now() + timedelta(minutes=30),
-        }
+        access_token = create_access_token(user_id=str(user.id))
+        refresh_token = create_refresh_token(user_id=str(user.id))
 
-        token = jwt.encode(
-            payload=payload,
-            algorithm="HS256",
-            key=os.environ.get("jwt_secret_key"),
-        )
-
-        response = self.get_response_ok(value={"jwt": token})
-        response.set_cookie(key="jwt", value=token, httponly=True)
+        response = self.get_response_ok(value={"token": access_token})
+        response.set_cookie(key="refresh_token", value=refresh_token, httponly=True)
 
         return response
