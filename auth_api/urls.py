@@ -3,5 +3,5 @@ from auth_api.views import RegisterView
 
 
 urlpatterns = [
-    path("", RegisterView.as_view()),
+    path("register/", RegisterView.as_view()),
 ]
