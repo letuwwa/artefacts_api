@@ -25,3 +25,11 @@ def create_refresh_token(user_id: str) -> str:
         algorithm="HS256",
         key=os.environ.get("jwt_secret_refresh_key"),
     )
+
+
+def decode_refresh_token(token: str) -> dict:
+    return jwt.decode(
+        jwt=token,
+        algorithms=["HS256"],
+        key=os.environ.get("jwt_secret_refresh_key"),
+    )

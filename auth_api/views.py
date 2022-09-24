@@ -5,7 +5,11 @@ from rest_framework.response import Response
 from auth_api.models import User
 from auth_api.serializers import UserSerializer
 from artefacts.base.base_response_class import BaseResponse
-from auth_api.utils import create_access_token, create_refresh_token
+from auth_api.utils import (
+    create_access_token,
+    create_refresh_token,
+    decode_refresh_token,
+)
 
 
 class RegisterView(APIView, BaseResponse):
@@ -34,7 +38,20 @@ class AuthTokenView(APIView, BaseResponse):
         access_token = create_access_token(user_id=str(user.id))
         refresh_token = create_refresh_token(user_id=str(user.id))
 
-        response = self.get_response_ok(value={"access": access_token})
+        response = self.get_response_ok(
+            value={
+                "access": access_token,
+                "refresh": refresh_token,
+            }
+        )
         response.set_cookie(key="refresh", value=refresh_token, httponly=True)
 
         return response
+
+
+class AuthTokenRefreshView(APIView, BaseResponse):
+    def post(self, request: Request) -> Response:
+        refresh_token = request.COOKIES.get("refresh")
+        token_data = decode_refresh_token(token=refresh_token)
+        access_token = create_access_token(user_id=token_data.get("user_id"))
+        return self.get_response_ok(value={"access": access_token})
