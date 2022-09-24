@@ -1,8 +1,3 @@
-import os
-
-import jwt
-from datetime import datetime, timedelta
-
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -22,7 +17,7 @@ class RegisterView(APIView, BaseResponse):
         return self.get_response_bad_request(value=user_serializer.errors)
 
 
-class LoginView(APIView, BaseResponse):
+class AuthTokenView(APIView, BaseResponse):
     def post(self, request: Request) -> Response:
         if not (email := request.data.get("email")):
             return self.get_response_bad_request()
@@ -39,7 +34,7 @@ class LoginView(APIView, BaseResponse):
         access_token = create_access_token(user_id=str(user.id))
         refresh_token = create_refresh_token(user_id=str(user.id))
 
-        response = self.get_response_ok(value={"token": access_token})
-        response.set_cookie(key="refresh_token", value=refresh_token, httponly=True)
+        response = self.get_response_ok(value={"access": access_token})
+        response.set_cookie(key="refresh", value=refresh_token, httponly=True)
 
         return response
