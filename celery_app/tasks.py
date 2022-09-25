@@ -1,6 +1,6 @@
 from .celery import app
-from artefacts.models import Artefact
-from artefacts.serializers import ArtefactSerializer
+from artefacts_api.models import Artefact
+from artefacts_api.serializers import ArtefactSerializer
 
 
 @app.task

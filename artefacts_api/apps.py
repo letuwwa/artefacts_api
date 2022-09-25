@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class ArtefactsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "artefacts"
+    name = "artefacts_api"

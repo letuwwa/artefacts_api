@@ -1,5 +1,5 @@
 from django.contrib import admin
-from artefacts.models import Artefact, Archeologist
+from artefacts_api.models import Artefact, Archeologist
 
 
 admin.site.register(Artefact)

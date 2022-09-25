@@ -1,7 +1,7 @@
 from django.db.models import Model
 from rest_framework.views import APIView
 from rest_framework.serializers import ModelSerializer
-from artefacts.base.base_response_class import BaseResponse
+from artefacts_api.base.base_response_class import BaseResponse
 
 
 class BaseView(APIView, BaseResponse):

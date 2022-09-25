@@ -2,9 +2,9 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from artefacts.base.base_view import BaseView
-from artefacts.models import Artefact, Archeologist
-from artefacts.serializers import ArtefactSerializer, ArcheologistSerializer
+from artefacts_api.base.base_view import BaseView
+from artefacts_api.models import Artefact, Archeologist
+from artefacts_api.serializers import ArtefactSerializer, ArcheologistSerializer
 
 from celery_app.tasks import create_artefact_copy
 
@@ -39,7 +39,7 @@ class ArcheologistCommonView(BaseView):
             return self.get_response_ok(
                 value={
                     "archeologist": archeologist_serializer.data,
-                    "artefacts": artefacts_serializer.data,
+                    "artefacts_api": artefacts_serializer.data,
                 }
             )
         return self.get_response_not_found()

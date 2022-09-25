@@ -1,4 +1,4 @@
-from artefacts.models import Artefact, Archeologist
+from artefacts_api.models import Artefact, Archeologist
 from rest_framework.serializers import ModelSerializer
 
 
