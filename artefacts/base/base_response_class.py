@@ -12,11 +12,19 @@ class BaseResponse:
         return Response(data={"status": "deleted"}, status=status.HTTP_204_NO_CONTENT)
 
     @staticmethod
-    def get_response_ok(value) -> Response:
+    def get_response_forbidden() -> Response:
+        return Response(data={"status": "forbidden"}, status=status.HTTP_403_FORBIDDEN)
+
+    @staticmethod
+    def get_response_ok(value=None) -> Response:
+        if not value:
+            value = {"status": "ok"}
         return Response(data=value, status=status.HTTP_200_OK)
 
     @staticmethod
-    def get_response_bad_request(value) -> Response:
+    def get_response_bad_request(value=None) -> Response:
+        if not value:
+            value = {"status": "bad_request"}
         return Response(data=value, status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
