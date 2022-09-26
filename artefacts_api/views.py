@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -30,6 +31,9 @@ class ArtefactCommonView(BaseView):
 class ArcheologistCommonView(BaseView):
     model = Archeologist
     model_serializer = ArcheologistSerializer
+    permission_classes = [
+        IsAuthenticated,
+    ]
 
     def get(self, request: Request, uuid: str):
         if archeologist := self.get_entity_or_none(pk=uuid):
