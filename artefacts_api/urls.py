@@ -12,7 +12,7 @@ app_name = ArtefactsConfig.name
 
 urlpatterns = [
     path("", root_view),
-    path("archeologist/<str:uuid>/", ArcheologistCommonView.as_view()),
     path("artefact/", ArtefactCommonView.as_view()),
-    path("artefact/<str:pk>/", ArtefactEntityView.as_view()),
+    path("artefact/<str:uuid>/", ArtefactEntityView.as_view()),
+    path("archeologist/<str:uuid>/", ArcheologistCommonView.as_view()),
 ]
