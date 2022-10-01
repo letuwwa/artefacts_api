@@ -1,9 +1,9 @@
 from django.urls import path
 from .apps import ArtefactsConfig
 from .views import (
+    root_view,
     ArtefactCommonView,
     ArtefactEntityView,
-    root_view,
     ArcheologistCommonView,
 )
 
