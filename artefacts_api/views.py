@@ -17,7 +17,7 @@ class ArtefactCommonView(BaseView):
     def get(self, request: Request) -> Response:
         artefacts = self.model.objects.all()
         serializer = self.model_serializer(instance=artefacts, many=True)
-        return self.get_response_ok(value=serializer.data)
+        return self.get_response_ok(value={"artefacts": serializer.data})
 
     def post(self, request: Request) -> Response:
         serializer = self.model_serializer(data=request.data)
