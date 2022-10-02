@@ -1,13 +1,11 @@
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
 
 from artefacts_api.base.base_view import BaseView
 from artefacts_api.models import Artefact, Archeologist
 from artefacts_api.serializers import ArtefactSerializer, ArcheologistSerializer
-
-from celery_app.tasks import create_artefact_copy
 
 
 class ArtefactCommonView(BaseView):
@@ -23,7 +21,6 @@ class ArtefactCommonView(BaseView):
         serializer = self.model_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            create_artefact_copy(serializer=serializer)
             return self.get_response_created(value=serializer.data)
         return self.get_response_bad_request(value=serializer.errors)
 
