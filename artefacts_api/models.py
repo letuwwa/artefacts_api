@@ -20,8 +20,12 @@ class Artefact(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=128, null=False, help_text="Name")
     description = models.CharField(max_length=2048, null=True, help_text="Description")
-    creation_century = models.IntegerField(blank=True, null=True, help_text="Century of creation")
-    discovery_year = models.IntegerField(blank=True, null=True, help_text="Year of discovery")
+    creation_century = models.IntegerField(
+        blank=True, null=True, help_text="Century of creation"
+    )
+    discovery_year = models.IntegerField(
+        blank=True, null=True, help_text="Year of discovery"
+    )
     archeologist = models.ForeignKey(
         null=True,
         blank=True,
