@@ -19,10 +19,9 @@ class ArtefactSerializer(serializers.ModelSerializer):
         creation_year = data.get("creation_year")
         discovery_year = data.get("discovery_year")
 
-        if discovery_year and creation_year:
-            if creation_year >= discovery_year:
-                raise serializers.ValidationError(
-                    "creation_year can't be greater or equal to discovery_year"
-                )
+        if discovery_year and creation_year and creation_year >= discovery_year:
+            raise serializers.ValidationError(
+                "creation_year can't be greater or equal to discovery_year"
+            )
 
         return data
