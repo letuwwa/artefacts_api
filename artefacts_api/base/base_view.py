@@ -1,10 +1,10 @@
 from django.db.models import Model
 from rest_framework.views import APIView
 from rest_framework.serializers import ModelSerializer
-from artefacts_api.base.base_response_class import BaseResponse
+from artefacts_api.base.base_response_class import ResponseMixin
 
 
-class BaseView(APIView, BaseResponse):
+class BaseView(APIView, ResponseMixin):
     model: Model
     model_serializer: ModelSerializer
 

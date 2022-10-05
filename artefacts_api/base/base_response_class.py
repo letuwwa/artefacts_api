@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 
-class BaseResponse:
+class ResponseMixin:
     @staticmethod
     def get_response_not_found() -> Response:
         return Response(data={"status": "not_found"}, status=status.HTTP_404_NOT_FOUND)
