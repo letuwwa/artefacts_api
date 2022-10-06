@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from auth_api.models import User
 from auth_api.serializers import UserSerializer
 from artefacts_api.base.base_view import BaseView
-from artefacts_api.base.base_response_class import ResponseMixin
+from artefacts_api.base.response_mixin import ResponseMixin
 
 
 class RegisterView(BaseView, ResponseMixin):
