@@ -16,17 +16,19 @@ class ResponseMixin:
         return Response(data={"status": "forbidden"}, status=status.HTTP_403_FORBIDDEN)
 
     @staticmethod
-    def get_response_ok(value=None) -> Response:
+    def get_response_ok(value: list | dict = None) -> Response:
         if not value:
             value = {"status": "ok"}
         return Response(data=value, status=status.HTTP_200_OK)
 
     @staticmethod
-    def get_response_bad_request(value=None) -> Response:
+    def get_response_bad_request(value: list | dict = None) -> Response:
         if not value:
             value = {"status": "bad_request"}
         return Response(data=value, status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
-    def get_response_created(value) -> Response:
+    def get_response_created(value: list | dict = None) -> Response:
+        if not value:
+            value = {"status": "created"}
         return Response(data=value, status=status.HTTP_201_CREATED)
