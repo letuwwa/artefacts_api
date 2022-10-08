@@ -9,7 +9,7 @@ class ArcheologistSerializer(serializers.ModelSerializer):
 
 
 class ArtefactSerializer(serializers.ModelSerializer):
-    archeologist = ArcheologistSerializer(allow_null=True)
+    archeologist = ArcheologistSerializer(allow_null=True, required=False)
 
     class Meta:
         model = Artefact
