@@ -23,7 +23,7 @@ def create_artefacts(artefacts_count: int = 15) -> None:
     for _ in range(artefacts_count):
         artefact = Artefact()
         artefact.name = faker.catch_phrase()
-        artefact.description = faker.paragraph(nb_sentences=1)
+        artefact.description = faker.paragraph(nb_sentences=10)
         artefact.creation_year = randint(0, 1999)
         artefact.discovery_year = randint(2000, 2022)
         artefact.archeologist = choice(archeologists)

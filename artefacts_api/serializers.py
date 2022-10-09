@@ -5,7 +5,7 @@ from artefacts_api.models import Artefact, Archeologist
 class ArcheologistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Archeologist
-        fields = ("id", "first_name")
+        fields = ("id", "first_name", "surname")
 
 
 class ArtefactSerializer(serializers.ModelSerializer):

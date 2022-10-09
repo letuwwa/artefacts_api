@@ -74,9 +74,14 @@ class ArtefactEntityView(BaseView):
 
 
 @api_view()
-def root_view(request):
-    result = create_archeologists.apply_async(countdown=1)
-    result.get()
+def db_artefacts_view(request):
     result = create_artefacts.apply_async(countdown=1)
+    result.get()
+    return Response({"message": "Hello, world!"})
+
+
+@api_view()
+def db_archeologists_view(request):
+    result = create_archeologists.apply_async(countdown=1)
     result.get()
     return Response({"message": "Hello, world!"})
