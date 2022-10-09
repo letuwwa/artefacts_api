@@ -4,12 +4,12 @@ from django.db import models
 
 class Archeologist(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=128, null=False, help_text="Name")
+    first_name = models.CharField(max_length=128, null=False, help_text="Name")
     surname = models.CharField(max_length=128, null=False, help_text="Surname")
     email = models.EmailField(max_length=254, null=True, help_text="Email")
 
     def __str__(self) -> str:
-        return f"{self.name} {self.surname}"
+        return f"{self.first_name} {self.surname}"
 
     class Meta:
         verbose_name = "Archeologist"
