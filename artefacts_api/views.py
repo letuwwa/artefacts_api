@@ -7,6 +7,8 @@ from artefacts_api.base.base_view import BaseView
 from artefacts_api.models import Artefact, Archeologist
 from artefacts_api.serializers import ArtefactSerializer, ArcheologistSerializer
 
+from celery_app.tasks import create_archeologists, create_artefacts
+
 
 class ArtefactCommonView(BaseView):
     model = Artefact
@@ -73,4 +75,8 @@ class ArtefactEntityView(BaseView):
 
 @api_view()
 def root_view(request):
+    result = create_archeologists.apply_async(countdown=1)
+    result.get()
+    result = create_artefacts.apply_async(countdown=1)
+    result.get()
     return Response({"message": "Hello, world!"})

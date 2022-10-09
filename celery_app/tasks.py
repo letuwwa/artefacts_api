@@ -1,12 +1,30 @@
+from faker import Faker
 from .celery import app
-from artefacts_api.models import Artefact
-from artefacts_api.serializers import ArtefactSerializer
+from random import randint, choice
+from artefacts_api.models import Archeologist, Artefact
+
+
+faker = Faker()
 
 
 @app.task
-def create_artefact_copy(serializer: ArtefactSerializer):
-    artefact_copy = Artefact()
-    artefact_copy.name = "COPY_" + serializer.initial_data.get("name")
-    artefact_copy.description = serializer.initial_data.get("description")
-    artefact_copy.archeologist = serializer.initial_data.get("archeologist")
-    artefact_copy.save()
+def create_archeologists(archeologists_count: int = 5) -> None:
+    for _ in range(archeologists_count):
+        archeologist = Archeologist()
+        archeologist.first_name = faker.first_name()
+        archeologist.surname = faker.last_name()
+        archeologist.email = faker.email()
+        archeologist.save()
+
+
+@app.task
+def create_artefacts(artefacts_count: int = 15) -> None:
+    archeologists = list(Archeologist.objects.all())
+    for _ in range(artefacts_count):
+        artefact = Artefact()
+        artefact.name = faker.catch_phrase()
+        artefact.description = faker.paragraph(nb_sentences=1)
+        artefact.creation_year = randint(0, 1999)
+        artefact.discovery_year = randint(2000, 2022)
+        artefact.archeologist = choice(archeologists)
+        artefact.save()
