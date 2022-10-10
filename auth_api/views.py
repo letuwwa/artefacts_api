@@ -1,10 +1,16 @@
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from auth_api.models import User
-from auth_api.serializers import UserSerializer
+from auth_api.serializers import UserSerializer, CustomObtainPairSerializer
+
 from artefacts_api.base.base_view import BaseView
 from artefacts_api.base.response_mixin import ResponseMixin
+
+
+class CustomObtainPairView(TokenObtainPairView):
+    serializer_class = CustomObtainPairSerializer
 
 
 class RegisterView(BaseView, ResponseMixin):
