@@ -77,11 +77,11 @@ class ArtefactEntityView(BaseView):
 def db_artefacts_view(request):
     result = create_artefacts.apply_async(countdown=1)
     result.get()
-    return Response({"message": "Hello, world!"})
+    return Response({"status": "created"})
 
 
 @api_view()
 def db_archeologists_view(request):
     result = create_archeologists.apply_async(countdown=1)
     result.get()
-    return Response({"message": "Hello, world!"})
+    return Response({"status": "created"})
