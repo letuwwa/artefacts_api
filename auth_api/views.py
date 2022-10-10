@@ -6,14 +6,13 @@ from auth_api.models import User
 from auth_api.serializers import UserSerializer, CustomObtainPairSerializer
 
 from artefacts_api.base.base_view import BaseView
-from artefacts_api.base.response_mixin import ResponseMixin
 
 
 class CustomObtainPairView(TokenObtainPairView):
     serializer_class = CustomObtainPairSerializer
 
 
-class RegisterView(BaseView, ResponseMixin):
+class RegisterView(BaseView):
     model = User
     model_serializer = UserSerializer
 
