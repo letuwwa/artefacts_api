@@ -27,7 +27,7 @@ class ArtefactCommonView(BaseView):
         return self.get_response_bad_request(value=serializer.errors)
 
 
-class ArcheologistCommonView(BaseView):
+class ArcheologistEntityView(BaseView):
     model = Archeologist
     model_serializer = ArcheologistSerializer
     permission_classes = [
