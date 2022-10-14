@@ -27,6 +27,16 @@ class ArtefactCommonView(BaseView):
         return self.get_response_bad_request(value=serializer.errors)
 
 
+class ArcheologistCommonView(BaseView):
+    model = Archeologist
+    model_serializer = ArcheologistSerializer
+
+    def get(self, request: Request) -> Response:
+        archeologists = self.model.objects.all()
+        serializer = self.model_serializer(instance=archeologists, many=True)
+        return self.get_response_ok(value={"archeologists": serializer.data})
+
+
 class ArcheologistEntityView(BaseView):
     model = Archeologist
     model_serializer = ArcheologistSerializer
