@@ -1,9 +1,9 @@
 import uuid
 from django.db import models
+from base.base_model import BaseModel
 
 
-class Archeologist(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Archeologist(BaseModel):
     first_name = models.CharField(max_length=128, null=False, help_text="Name")
     surname = models.CharField(max_length=128, null=False, help_text="Surname")
     email = models.EmailField(max_length=254, null=True, help_text="Email")
@@ -16,8 +16,7 @@ class Archeologist(models.Model):
         verbose_name_plural = "Archeologists"
 
 
-class Artefact(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Artefact(BaseModel):
     name = models.CharField(max_length=128, null=False, help_text="Name")
     description = models.CharField(max_length=2048, null=True, help_text="Description")
     creation_year = models.IntegerField(
