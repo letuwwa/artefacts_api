@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-
 class User(AbstractUser, BaseModel):
     email = models.EmailField(unique=True, verbose_name="Email")
     first_name = models.CharField(max_length=128, verbose_name="First Name")
