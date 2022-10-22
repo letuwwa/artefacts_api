@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 
-from artefacts_api.base.base_view import BaseView
+from base.base_view import BaseView
 from artefacts_api.models import Artefact, Archeologist
 from artefacts_api.serializers import ArtefactSerializer, ArcheologistSerializer
 
@@ -25,6 +25,16 @@ class ArtefactCommonView(BaseView):
             serializer.save()
             return self.get_response_created(value=serializer.data)
         return self.get_response_bad_request(value=serializer.errors)
+
+
+class ArcheologistCommonView(BaseView):
+    model = Archeologist
+    model_serializer = ArcheologistSerializer
+
+    def get(self, request: Request) -> Response:
+        archeologists = self.model.objects.all()
+        serializer = self.model_serializer(instance=archeologists, many=True)
+        return self.get_response_ok(value={"archeologists": serializer.data})
 
 
 class ArcheologistEntityView(BaseView):

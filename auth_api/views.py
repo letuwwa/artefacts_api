@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from auth_api.models import User
 from auth_api.serializers import UserSerializer, CustomObtainPairSerializer
 
-from artefacts_api.base.base_view import BaseView
+from base.base_view import BaseView
 
 
 class CustomObtainPairView(TokenObtainPairView):

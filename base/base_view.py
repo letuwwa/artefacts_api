@@ -1,7 +1,8 @@
 from django.db.models import Model
 from rest_framework.views import APIView
 from rest_framework.serializers import ModelSerializer
-from artefacts_api.base.response_mixin import ResponseMixin
+
+from base.response_mixin import ResponseMixin
 
 
 class BaseView(APIView, ResponseMixin):
