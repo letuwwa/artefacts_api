@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 
-from base.base_view import BaseView
+from base import BaseView
 from artefacts_api.models import Artefact, Archeologist
 from artefacts_api.serializers import ArtefactSerializer, ArcheologistSerializer
 

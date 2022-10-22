@@ -2,10 +2,9 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from base import BaseView
 from auth_api.models import User
 from auth_api.serializers import UserSerializer, CustomObtainPairSerializer
-
-from base.base_view import BaseView
 
 
 class CustomObtainPairView(TokenObtainPairView):

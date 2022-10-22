@@ -1,6 +1,5 @@
-import uuid
+from base import BaseModel
 from django.db import models
-from base.base_model import BaseModel
 
 
 class Archeologist(BaseModel):
