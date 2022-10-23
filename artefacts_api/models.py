@@ -32,8 +32,21 @@ class Artefact(BaseModel):
     )
 
     def __str__(self) -> str:
-        return f"{self.name} by {self.archeologist}"
+        return self.name
 
     class Meta:
         verbose_name = "Artefact"
         verbose_name_plural = "Artefacts"
+
+
+class Article(BaseModel):
+    title = models.CharField(max_length=128, null=False, blank=False, help_text="Title")
+    text = models.TextField(null=False, blank=False, help_text="Text")
+    artefacts = models.ManyToManyField(to=Artefact)
+
+    def __str__(self) -> str:
+        return self.title
+
+    class Meta:
+        verbose_name = "Article"
+        verbose_name_plural = "Articles"
