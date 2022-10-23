@@ -15,6 +15,14 @@ class Archeologist(BaseModel):
         verbose_name_plural = "Archeologists"
 
 
+class HistoryAge(BaseModel):
+    title = models.CharField(max_length=128, null=False, blank=False, help_text="Title")
+    description = models.CharField(max_length=2048, null=True, help_text="Description")
+
+    def __str__(self) -> str:
+        return self.title
+
+
 class Artefact(BaseModel):
     name = models.CharField(max_length=128, null=False, help_text="Name")
     description = models.CharField(max_length=2048, null=True, help_text="Description")
@@ -29,6 +37,12 @@ class Artefact(BaseModel):
         blank=True,
         to=Archeologist,
         on_delete=models.CASCADE,
+    )
+    history_age = models.OneToOneField(
+        null=True,
+        blank=True,
+        to=HistoryAge,
+        on_delete=models.DO_NOTHING,
     )
 
     def __str__(self) -> str:
