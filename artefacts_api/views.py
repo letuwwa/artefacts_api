@@ -15,7 +15,7 @@ from artefacts_api.serializers import (
 from celery_app.tasks import create_archeologists, create_artefacts
 
 
-class HistoryCommonView(
+class HistoryAgeCommonView(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     generics.GenericAPIView,
@@ -28,6 +28,25 @@ class HistoryCommonView(
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+
+class HistoryAgeEntityView(
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.RetrieveModelMixin,
+    generics.GenericAPIView,
+):
+    queryset = HistoryAge.objects.all()
+    serializer_class = HistoryAgeSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class ArtefactCommonView(BaseView):
