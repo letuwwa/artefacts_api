@@ -1,13 +1,33 @@
 from rest_framework.request import Request
+from rest_framework import mixins, generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 
 from base import BaseView
-from artefacts_api.models import Artefact, Archeologist
-from artefacts_api.serializers import ArtefactSerializer, ArcheologistSerializer
+from artefacts_api.models import Artefact, Archeologist, HistoryAge
+from artefacts_api.serializers import (
+    ArtefactSerializer,
+    HistoryAgeSerializer,
+    ArcheologistSerializer,
+)
 
 from celery_app.tasks import create_archeologists, create_artefacts
+
+
+class HistoryCommonView(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    generics.GenericAPIView,
+):
+    queryset = HistoryAge.objects.all()
+    serializer_class = HistoryAgeSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 class ArtefactCommonView(BaseView):

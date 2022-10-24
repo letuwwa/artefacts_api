@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from artefacts_api.models import Artefact, Archeologist
+from artefacts_api.models import Artefact, Archeologist, HistoryAge
+
+
+class HistoryAgeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HistoryAge
+        fields = "__all__"
 
 
 class ArcheologistSerializer(serializers.ModelSerializer):

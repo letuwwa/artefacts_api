@@ -7,12 +7,14 @@ from .views import (
     ArcheologistEntityView,
     db_artefacts_view,
     db_archeologists_view,
+    HistoryCommonView,
 )
 
 
 app_name = ArtefactsConfig.name
 
 urlpatterns = [
+    path("history_ages/", HistoryCommonView.as_view()),
     path("create_artefacts/", db_artefacts_view),
     path("create_archeologists/", db_archeologists_view),
     path("artefacts/", ArtefactCommonView.as_view()),
