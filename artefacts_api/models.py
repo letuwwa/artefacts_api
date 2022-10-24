@@ -22,6 +22,10 @@ class HistoryAge(BaseModel):
     def __str__(self) -> str:
         return self.title
 
+    class Meta:
+        verbose_name = "History Age"
+        verbose_name_plural = "History Ages"
+
 
 class Artefact(BaseModel):
     name = models.CharField(max_length=128, null=False, help_text="Name")
