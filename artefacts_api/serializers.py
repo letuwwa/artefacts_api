@@ -8,16 +8,10 @@ class HistoryAgeSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ArticleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Article
-        fields = ("id", "title", "text")
-
-
 class ArcheologistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Archeologist
-        fields = ("id", "first_name", "surname")
+        fields = ("id", "first_name", "surname", "email")
 
 
 class ArtefactSerializer(serializers.ModelSerializer):
@@ -37,3 +31,11 @@ class ArtefactSerializer(serializers.ModelSerializer):
             )
 
         return data
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    artefacts = ArtefactSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Article
+        fields = ("id", "title", "text", "artefacts")

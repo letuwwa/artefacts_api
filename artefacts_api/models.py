@@ -42,7 +42,7 @@ class Artefact(BaseModel):
         to=Archeologist,
         on_delete=models.CASCADE,
     )
-    history_age = models.OneToOneField(
+    history_age = models.ForeignKey(
         null=True,
         blank=True,
         to=HistoryAge,
@@ -61,8 +61,6 @@ class Article(BaseModel):
     title = models.CharField(max_length=128, null=False, blank=False, help_text="Title")
     text = models.TextField(null=False, blank=False, help_text="Text")
     artefacts = models.ManyToManyField(to=Artefact)
-    history_ages = models.ManyToManyField(to=HistoryAge)
-    archeologists = models.ManyToManyField(to=Archeologist)
 
     def __str__(self) -> str:
         return self.title
