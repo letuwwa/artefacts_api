@@ -5,14 +5,25 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 
 from base import BaseView
-from artefacts_api.models import Artefact, Archeologist, HistoryAge
+from artefacts_api.models import Artefact, Archeologist, HistoryAge, Article
 from artefacts_api.serializers import (
+    ArticleSerializer,
     ArtefactSerializer,
     HistoryAgeSerializer,
     ArcheologistSerializer,
 )
 
 from celery_app.tasks import create_archeologists, create_artefacts
+
+
+class ArticleCommonView(generics.ListCreateAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+
+class ArticleEntityView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
 
 
 class HistoryAgeCommonView(

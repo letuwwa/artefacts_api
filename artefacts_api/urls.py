@@ -1,20 +1,24 @@
 from django.urls import path
 from .apps import ArtefactsConfig
 from .views import (
+    ArticleCommonView,
+    ArticleEntityView,
     ArtefactCommonView,
     ArtefactEntityView,
+    HistoryAgeCommonView,
+    HistoryAgeEntityView,
     ArcheologistCommonView,
     ArcheologistEntityView,
     db_artefacts_view,
     db_archeologists_view,
-    HistoryAgeCommonView,
-    HistoryAgeEntityView,
 )
 
 
 app_name = ArtefactsConfig.name
 
 urlpatterns = [
+    path("articles/", ArticleCommonView.as_view()),
+    path("articles/<str:pk>/", ArticleEntityView.as_view()),
     path("history_ages/", HistoryAgeCommonView.as_view()),
     path("history_ages/<str:pk>/", HistoryAgeEntityView.as_view()),
     path("create_artefacts/", db_artefacts_view),
