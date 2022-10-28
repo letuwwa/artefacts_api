@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, OuterRef, Subquery
 from rest_framework.request import Request
 from rest_framework import mixins, generics
 from rest_framework.response import Response
@@ -138,14 +138,27 @@ class ArtefactEntityView(BaseView):
 def artefact_root_view(request):
     artefacts_queryset = Artefact.objects.filter(
         Q(creation_year__gt=1000) & Q(discovery_year__gt=2005) & ~Q(archeologist=None)
-    )[:5]
+    )[:3]
     artefacts_serializer = ArtefactSerializer(instance=artefacts_queryset, many=True)
-    return Response(
-        {
-            "data": artefacts_serializer.data,
-            "query": str(artefacts_queryset.query),
-        }
+    artefacts_qs = Artefact.objects.filter(archeologist=OuterRef(name="pk")).order_by(
+        "-created_at"
     )
+    archeologists_qs = Archeologist.objects.all().annotate(
+        last_artefact=Subquery(artefacts_qs.values("name")[:1])
+    ).only("first_name", "surname")[:3]
+    response_values_one = {
+        "data": artefacts_serializer.data,
+        "query-one": str(artefacts_queryset.query),
+        "query-two": [
+            {
+                "first_name": entity.first_name,
+                "surname": entity.surname,
+                "last_artefact": entity.last_artefact,
+            }
+            for entity in archeologists_qs
+        ],
+    }
+    return Response(response_values_one)
 
 
 @api_view()
