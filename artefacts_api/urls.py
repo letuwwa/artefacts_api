@@ -11,12 +11,14 @@ from .views import (
     ArcheologistEntityView,
     db_artefacts_view,
     db_archeologists_view,
+    artefact_root_view,
 )
 
 
 app_name = ArtefactsConfig.name
 
 urlpatterns = [
+    path("", artefact_root_view),
     path("articles/", ArticleCommonView.as_view()),
     path("articles/<str:pk>/", ArticleEntityView.as_view()),
     path("history_ages/", HistoryAgeCommonView.as_view()),

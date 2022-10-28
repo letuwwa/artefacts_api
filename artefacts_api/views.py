@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework.request import Request
 from rest_framework import mixins, generics
 from rest_framework.response import Response
@@ -131,6 +132,20 @@ class ArtefactEntityView(BaseView):
             artefact.delete()
             return self.get_response_deleted()
         return self.get_response_not_found()
+
+
+@api_view()
+def artefact_root_view(request):
+    artefacts_queryset = Artefact.objects.filter(
+        Q(creation_year__gt=1000) & Q(discovery_year__gt=2005) & ~Q(archeologist=None)
+    )[:5]
+    artefacts_serializer = ArtefactSerializer(instance=artefacts_queryset, many=True)
+    return Response(
+        {
+            "data": artefacts_serializer.data,
+            "query": str(artefacts_queryset.query),
+        }
+    )
 
 
 @api_view()
