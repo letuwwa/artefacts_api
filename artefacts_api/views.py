@@ -1,9 +1,9 @@
-from django.db.models import Q, OuterRef, Subquery
 from rest_framework.request import Request
 from rest_framework import mixins, generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Q, OuterRef, Subquery, Avg, Sum
 
 from base import BaseView
 from artefacts_api.models import Artefact, Archeologist, HistoryAge, Article
@@ -140,12 +140,14 @@ def artefact_root_view(request):
         Q(creation_year__gt=1000) & Q(discovery_year__gt=2005) & ~Q(archeologist=None)
     )[:3]
     artefacts_serializer = ArtefactSerializer(instance=artefacts_queryset, many=True)
+
     artefacts_qs = Artefact.objects.filter(archeologist=OuterRef(name="pk")).order_by(
         "-created_at"
     )
     archeologists_qs = Archeologist.objects.all().annotate(
         last_artefact=Subquery(artefacts_qs.values("name")[:1])
     ).only("first_name", "surname")[:3]
+
     response_values_one = {
         "data": artefacts_serializer.data,
         "query-one": str(artefacts_queryset.query),
@@ -157,7 +159,10 @@ def artefact_root_view(request):
             }
             for entity in archeologists_qs
         ],
+        "useless-avg": Artefact.objects.all().aggregate(Avg("creation_year")),
+        "useless-sum": Artefact.objects.all().aggregate(Sum("creation_year")),
     }
+
     return Response(response_values_one)
 
 
