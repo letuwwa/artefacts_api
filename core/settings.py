@@ -66,9 +66,9 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "artefacts_db",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
+        "NAME": os.environ.get("db_name", "db_artefacts"),
+        "USER": os.environ.get("db_admin", "db_admin"),
+        "PASSWORD": os.environ.get("db_pass", "db_pass"),
         "HOST": "localhost",
         "PORT": "5432",
     }
