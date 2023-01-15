@@ -144,9 +144,11 @@ def artefact_root_view(request):
     artefacts_qs = Artefact.objects.filter(archeologist=OuterRef(name="pk")).order_by(
         "-created_at"
     )
-    archeologists_qs = Archeologist.objects.all().annotate(
-        last_artefact=Subquery(artefacts_qs.values("name")[:1])
-    ).only("first_name", "surname")[:3]
+    archeologists_qs = (
+        Archeologist.objects.all()
+        .annotate(last_artefact=Subquery(artefacts_qs.values("name")[:1]))
+        .only("first_name", "surname")[:3]
+    )
 
     response_values_one = {
         "data": artefacts_serializer.data,
