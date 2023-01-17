@@ -1,8 +1,18 @@
 from drf_yasg import openapi
+from logging import getLogger
 from django.contrib import admin
-from django.urls import path, include, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
+from rest_framework.request import Request
+from rest_framework.response import Response
+from django.urls import path, include, re_path
+from rest_framework.decorators import api_view
+
+
+@api_view(["GET"])
+def api_root(request: Request):
+    getLogger().info("hola!")
+    return Response(f"Hi!, {request.user}")
 
 
 schema_view = get_schema_view(
@@ -20,6 +30,7 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
+    path("", api_root),
     re_path(
         r"^doc(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
