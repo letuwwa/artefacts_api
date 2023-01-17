@@ -1,5 +1,6 @@
+from logging import getLogger
 from rest_framework.request import Request
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
@@ -173,13 +174,27 @@ def artefact_root_view(request):
 
 @api_view()
 def db_artefacts_view(request):
-    result = create_artefacts.apply_async(countdown=1)
-    result.get()
-    return Response({"status": "created"})
+    try:
+        result = create_artefacts.apply_async(countdown=1)
+        result.get()
+    except Exception as err:
+        getLogger().error(f"error in db_artefacts_view: {err}")
+        return Response(
+            {"status": "error"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+    return Response({"status": "created"}, status=status.HTTP_200_OK)
 
 
 @api_view()
 def db_archeologists_view(request):
-    result = create_archeologists.apply_async(countdown=1)
-    result.get()
-    return Response({"status": "created"})
+    try:
+        result = create_archeologists.apply_async(countdown=1)
+        result.get()
+    except Exception as err:
+        getLogger().error(f"error in db_archeologists_view: {err}")
+        return Response(
+            {"status": "error"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+    return Response({"status": "created"}, status=status.HTTP_200_OK)
