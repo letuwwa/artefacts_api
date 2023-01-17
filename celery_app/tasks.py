@@ -10,7 +10,7 @@ faker = Faker()
 @app.task
 def create_archeologists(archeologists_count: int = 5) -> None:
     """
-        Create new archeologists and save them to DB
+    Create new archeologists and save them to DB
     """
     for _ in range(archeologists_count):
         archeologist = Archeologist()
@@ -23,8 +23,8 @@ def create_archeologists(archeologists_count: int = 5) -> None:
 @app.task
 def create_artefacts(artefacts_count: int = 15) -> None:
     """
-            Create new artefacts and save them to DB
-            artefact.archeologist is taken from existing records
+    Create new artefacts and save them to DB
+    artefact.archeologist is taken from existing records
     """
     archeologists = list(Archeologist.objects.all())
     for _ in range(artefacts_count):

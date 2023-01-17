@@ -137,7 +137,7 @@ class ArtefactEntityView(BaseView):
 @api_view()
 def artefact_root_view(request):
     """
-        Test view to explore Django ORM
+    Test view to explore Django ORM
     """
     artefacts_queryset = Artefact.objects.filter(
         Q(creation_year__gt=1000) & Q(discovery_year__gt=2005) & ~Q(archeologist=None)

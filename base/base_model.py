@@ -4,7 +4,7 @@ from django.db import models
 
 class BaseModel(models.Model):
     """
-        Base model, every model should be inherited from this class
+    Base model, every model should be inherited from this class
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
