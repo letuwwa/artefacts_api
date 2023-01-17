@@ -4,6 +4,9 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class CustomObtainPairSerializer(TokenObtainPairSerializer):
+    """
+        Saving username to token
+    """
     @classmethod
     def get_token(cls, user: User):
         token = super().get_token(user)

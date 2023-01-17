@@ -22,6 +22,9 @@ class ArtefactSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
+        """
+            This check should affect values of creation_year and discovery_year
+        """
         creation_year = data.get("creation_year")
         discovery_year = data.get("discovery_year")
 

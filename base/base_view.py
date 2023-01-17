@@ -11,6 +11,9 @@ class BaseView(APIView, ResponseMixin):
 
     @classmethod
     def get_entity_or_none(cls, pk: str) -> Model | None:
+        """
+            Get entity of type <self.model> or None
+        """
         try:
             return cls.model.objects.get(pk=pk)
         except cls.model.DoesNotExist:
