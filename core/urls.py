@@ -7,12 +7,12 @@ from drf_yasg.views import get_schema_view
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Jaseci API",
+        title="Artefacts API",
         default_version="v1",
-        description="Welcome to the world of Jaseci",
-        terms_of_service="https://www.jaseci.org",
-        contact=openapi.Contact(email="jason@jaseci.org"),
-        license=openapi.License(name="Awesome IP"),
+        description="",
+        terms_of_service="",
+        contact=openapi.Contact(email="letuwwa@gmail.com"),
+        license=openapi.License(name="Free license"),
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
