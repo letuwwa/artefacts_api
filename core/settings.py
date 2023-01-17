@@ -6,6 +6,20 @@ from datetime import timedelta
 
 load_dotenv()
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+}
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
