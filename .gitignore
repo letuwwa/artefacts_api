@@ -39,6 +39,8 @@ logs/
 
 # virtualenv
 venv/
+.venv/
+.uv-cache/
 
 # env
 /.env

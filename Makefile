@@ -1,9 +1,9 @@
 .DEFAULT_GOAL := build
 
 migrate:
-	python manage.py migrate
+	uv run python manage.py migrate
 
 start:
-	python manage.py runserver
+	uv run python manage.py runserver
 
 build: migrate start
