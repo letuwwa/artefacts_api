@@ -1,21 +1,23 @@
-from logging import getLogger
+import logging
 from rest_framework.request import Request
-from rest_framework import mixins, generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import mixins, generics, status
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Q, OuterRef, Subquery, Avg, Sum
+from django.db.models import Avg, OuterRef, Q, Subquery, Sum
+from celery_app.tasks import create_archeologists, create_artefacts
 
 from base import BaseView
-from artefacts_api.models import Artefact, Archeologist, HistoryAge, Article
+from artefacts_api.models import Archeologist, Artefact, Article, HistoryAge
 from artefacts_api.serializers import (
     ArticleSerializer,
+    ArcheologistSerializer,
     ArtefactSerializer,
     HistoryAgeSerializer,
-    ArcheologistSerializer,
 )
 
-from celery_app.tasks import create_archeologists, create_artefacts
+
+logger = logging.getLogger(__name__)
 
 
 class ArticleCommonView(generics.ListCreateAPIView):
@@ -178,7 +180,7 @@ def db_artefacts_view(request):
         result = create_artefacts.apply_async(countdown=1)
         result.get()
     except Exception as err:
-        getLogger().error(f"error in db_artefacts_view: {err}")
+        logger.exception("Error in db_artefacts_view: %s", err)
         return Response(
             {"status": "error"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -192,7 +194,7 @@ def db_archeologists_view(request):
         result = create_archeologists.apply_async(countdown=1)
         result.get()
     except Exception as err:
-        getLogger().error(f"error in db_archeologists_view: {err}")
+        logger.exception("Error in db_archeologists_view: %s", err)
         return Response(
             {"status": "error"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
